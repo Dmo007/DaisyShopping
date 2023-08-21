@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/item',App\Http\Controllers\ItemController::class);
+Route::get('/item/categories/{id}',[App\Http\Controllers\ItemController::class,'itemCategory'])->name('itemcategory');
+Route::get('/cart',[App\Http\Controllers\ItemController::class, 'cartTable'])->name('itemTable');
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
