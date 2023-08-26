@@ -25,3 +25,12 @@ Route::get('/cart',[App\Http\Controllers\ItemController::class, 'cartTable'])->n
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix'=>'backend','as'=>'backend.'],function(){
+    Route::get('/',[App\Http\Controllers\Admin\DashBoardController::class,'index'])->name('dashboard');
+    Route::resource('items',App\Http\Controllers\Admin\ItemController::class);
+    Route::resource('categories',App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('payments',App\Http\Controllers\Admin\PaymentController::class);
+    Route::resource('users',App\Http\Controllers\Admin\UserController::class);
+
+});

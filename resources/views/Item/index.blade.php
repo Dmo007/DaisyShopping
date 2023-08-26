@@ -1,8 +1,6 @@
 @extends('layouts/frontend')
 @section('content')
-<!-- @php 
- var_dump($items);
-@endphp -->
+
         <!-- Header-->
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">

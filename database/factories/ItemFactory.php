@@ -17,7 +17,7 @@ class ItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'code_no'=>$this->faker->ean8,
+            'codeNo'=>$this->faker->ean8,
             'name'=>$this->faker->word,
             'image'=>$this->faker->imageUrl,
             'price'=>$this->faker->numberBetween(10000,100000),
