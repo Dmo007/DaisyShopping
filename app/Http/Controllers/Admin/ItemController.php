@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Item;
 use App\Http\Requests\ItemRequest;
+use App\Http\Requests\ItemUpdateRequest;
+
 
 class ItemController extends Controller
 {
@@ -34,7 +36,7 @@ class ItemController extends Controller
      */
     public function store(ItemRequest $request)
     {
-        dd($request);
+        // dd($request);
         $items= Item::create($request->all());
         // img_upload
         $fileName=time().'.'.$request->image->extension();
@@ -59,15 +61,33 @@ class ItemController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $item=Item::find($id);
+        $categories=Category::all();
+        return view('admin.items.edit',compact('item','categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ItemUpdateRequest $request, string $id)
     {
-        //
+        // dd($request);
+        $item=Item::find($id);
+        $item->update($request->all());
+
+        if($request->hasFile('new_image')){
+
+            $fileName=time().'.'.$request->new_image->extension();
+            $upload=$request->new_image->move(public_path('images/'),$fileName);
+            if($upload){
+                $item->image= "/images/".$fileName;
+            }
+        }
+        else{
+                $item->image=$request->old_image;
+            }
+        $item->save();
+        return redirect()->route('backend.items.index');
     }
 
     /**

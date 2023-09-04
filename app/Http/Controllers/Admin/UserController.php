@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
+use Illuminate\Support\Facades\Hash;
+
+
 class UserController extends Controller
 {
     /**
@@ -32,6 +36,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $users=User::create($request->all());
+        $users->password=Hash::make($request->password);
         $users->save();
         return redirect()->route('backend.users.index');
     }
@@ -49,15 +54,19 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user=User::find($id);
+        return view('admin.users.edit',compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, string $id)
     {
-        //
+        $user=User::find($id);
+        $user->update($request->all());
+        $user->save;
+        return redirect()->route('backend.users.index');
     }
 
     /**

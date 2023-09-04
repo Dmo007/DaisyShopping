@@ -12,11 +12,13 @@
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+        <!-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
     </head>
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="#!">Start Bootstrap</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -40,13 +42,27 @@
                             Cart
                             <span class="badge bg-dark text-white ms-1 rounded-pill" id="itemCount">0</span>
                         </a>
+                        @if(Auth::user())
+                        <div class="dropdown">
+                            <button class="btn  dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Auth::user()->name}}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <li><button class="dropdown-item" type="button">Profile</button></li>
+                                <li><a class="dropdown-item" href="{{Auth::logout()}}">Logout</a></li>
+                            </ul>
+                        </div>
+                        @else
+                        <a href="/login" class="btn mx-3">Login</a>
+                        <a href="/register" class="btn btn-outline-danger">Register</a>
+                        @endif
                     </form>
                 </div>
             </div>
         </nav>
     @yield('content')
         <!-- Footer-->
-        <footer class="py-5 bg-dark">
+        <footer class="py-5 bg-dark fixed-bottom">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
         </footer>
         <!-- <script src="js/scripts.js"></script> -->

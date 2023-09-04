@@ -6,7 +6,7 @@
     <div class="card my-5">
         <div class="card-header">
             <h5 class="d-inline">Payment Create</h5>
-            <a href="posts.php" class="btn btn-danger float-end">Cancel</a>
+            <a href="{{route('backend.payments.index')}}" class="btn btn-danger float-end">Cancel</a>
         </div>
         <div class="card-body">
             <form action="{{route('payments.store')}}" method="POST" enctype="multipart/form-data">

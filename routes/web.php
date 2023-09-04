@@ -26,7 +26,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix'=>'backend','as'=>'backend.'],function(){
+Route::group(['middleware'=>['auth'],'prefix'=>'backend','as'=>'backend.'],function(){
     Route::get('/',[App\Http\Controllers\Admin\DashBoardController::class,'index'])->name('dashboard');
     Route::resource('items',App\Http\Controllers\Admin\ItemController::class);
     Route::resource('categories',App\Http\Controllers\Admin\CategoryController::class);

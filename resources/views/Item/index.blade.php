@@ -75,10 +75,10 @@
                                         </div>
                                         <div class="col-md-8 ms-md-2">
                                             <input type="hidden" class="qty" value="1">
-                                            <a class="btn btn-outline-dark flex-shrink-0 addToCart" href="" type="buttom" data-id="{{$item->id}}" data-name="{{$item->name}}" data-image="{{$item->image}}" data-price="{{$item->price}}" data-discount="{{$item->discount}}">
+                                            <button class="btn btn-outline-dark flex-shrink-0 addToCart" href="" type="buttom" data-id="{{$item->id}}" data-name="{{$item->name}}" data-image="{{$item->image}}" data-price="{{$item->price}}" data-discount="{{$item->discount}}">
                                                 <i class="bi-cart-fill me-1"></i>
                                                 Add cart
-                                            </a>
+</button>
                                         <!-- </div> -->
                                     </div>
                                 </div>
