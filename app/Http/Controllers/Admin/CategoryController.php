@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class CategoryController extends Controller
@@ -14,6 +16,18 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+     public function __construct(){
+        $this->middleware(function($request,$next){
+            if(in_array(Auth::user()->role,['Super Admin','Admin'])){
+                return $next($request);
+            }else{
+                return back();
+            }
+        });
+    }
+
     public function index()
     {
         $categories=Category::all();

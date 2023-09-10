@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\PaymentUpdateRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class PaymentController extends Controller
@@ -14,6 +16,18 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    
+     public function __construct(){
+        $this->middleware(function($request,$next){
+            if(in_array(Auth::user()->role,['Super Admin','Admin'])){
+                return $next($request);
+            }else{
+                return back();
+            }
+        });
+    }
+
     public function index()
     {
         $payments=Payment::all();

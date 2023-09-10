@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Http\Requests\ItemRequest;
 use App\Http\Requests\ItemUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 
 
 class ItemController extends Controller
@@ -15,6 +16,17 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function __construct(){
+        $this->middleware(function($request,$next){
+            if(in_array(Auth::user()->role,['Super Admin','Admin'])){
+                return $next($request);
+            }else{
+                return back();
+            }
+        });
+    }
+
     public function index()
     {
         $items=Item::paginate('5');

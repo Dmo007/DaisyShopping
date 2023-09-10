@@ -16,10 +16,23 @@ class Order extends Model
         'voucherNo',
         'qty',
         'total',
+        'status',
         'paymentSlip',
         'payment_id',
         'item_id',
         'user_id'
 
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function payment(){
+        return $this->belongsTo(Payment::class);
+    }
+
+    public function item(){
+        return $this->belongsTo(Item::class);
+    }
 }

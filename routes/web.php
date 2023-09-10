@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\ItemController::class, 'index']);
 
 Route::resource('/item',App\Http\Controllers\ItemController::class);
 Route::get('/item/categories/{id}',[App\Http\Controllers\ItemController::class,'itemCategory'])->name('itemcategory');
 Route::get('/cart',[App\Http\Controllers\ItemController::class, 'cartTable'])->name('itemTable');
+
+Route::post('orders',[App\Http\Controllers\ItemController::class, 'orderNow'])->name('orderNow');
+
 
 
 Auth::routes();
@@ -32,5 +32,11 @@ Route::group(['middleware'=>['auth'],'prefix'=>'backend','as'=>'backend.'],funct
     Route::resource('categories',App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('payments',App\Http\Controllers\Admin\PaymentController::class);
     Route::resource('users',App\Http\Controllers\Admin\UserController::class);
+
+    Route::get('orders',[App\Http\Controllers\Admin\OrderController::class,'index'])->name('orders.index');
+    Route::get('orders/{voucherNo}',[App\Http\Controllers\Admin\OrderController::class,'detail'])->name('orders.detail');
+    Route::put('orders/{voucherNo}',[App\Http\Controllers\Admin\OrderController::class,'status'])->name('orders.status');
+    // Route::get('orderAccept',[App\Http\Controllers\Admin\OrderController::class,'orderAccept'])->name('orders.orderAccept');
+
 
 });

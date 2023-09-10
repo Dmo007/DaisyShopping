@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Shop Homepage - Start Bootstrap Template</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
@@ -36,7 +37,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex product_action">
+                    <div class="d-flex product_action">
                         <a class="btn btn-outline-dark" href="{{route('itemTable')}}" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
@@ -49,20 +50,30 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <li><button class="dropdown-item" type="button">Profile</button></li>
-                                <li><a class="dropdown-item" href="{{Auth::logout()}}">Logout</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>                                
+                                </li>
                             </ul>
                         </div>
                         @else
                         <a href="/login" class="btn mx-3">Login</a>
                         <a href="/register" class="btn btn-outline-danger">Register</a>
                         @endif
-                    </form>
+                    </div>
                 </div>
             </div>
         </nav>
     @yield('content')
         <!-- Footer-->
-        <footer class="py-5 bg-dark fixed-bottom">
+        <footer class="py-5 bg-dark ">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
         </footer>
         <!-- <script src="js/scripts.js"></script> -->

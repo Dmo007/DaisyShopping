@@ -20,7 +20,44 @@
             </tbody>
         </table>
     </div>
+        @guest 
+            <a href="/login" class="btn btn-danger w-100">Login</a>
+        @else
+        <form action="" class="row" id="paymentForm" enctype="mulitpart/form-data">
+            @csrf
+        
+                <div class="col-12 col-md-6">
+                    <label for="paymentSlip">Payment Slip</label>
+                    <input type="file" name="paymentSlip" id="paymentSlip" class="form-control" accept="image/*">
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select name="paymentMethod" id="paymentMethod" class="form-select">
+                        <option value="">Choose Payment Method</option>
+                        @foreach($payments as $payment)
+                        <option value="{{$payment->id}}">{{$payment->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button class="btn btn-primary my-3" id="orderNow" type="submit">Order Now</button>
+        </form>
+        @endguest
+    <!-- </div> -->
  </div>
+<!-- payment modal -->
+
+<div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p class="text-success">Your Order is Success</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary" href="{{route('item.index')}}">Save</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 @endsection
 @section('script')
@@ -100,9 +137,56 @@
 
 
             }
+        });
+        
+    })
+
+    // $('#orderNow').click(function(){
+
+    //     let itemString=localStorage.getItem('DaisyShopping');
+
+       
+
+    // $.post("{{route('orderNow')}}",{data:itemString},function(respond){
+    //     console.log(respond);
+    // });
+
+    // });
+
+        $(document).ready(function(){
+            $('#paymentForm').on('submit',function(e){
+                e.preventDefault();
+                let formData= new FormData(this);
+                // console.log(formData);
+                let itemString=localStorage.getItem('DaisyShopping');
+                formData.append('orderItems',itemString);
+
+                $.ajaxSetup({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: "{{route('orderNow')}}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response){
+                    
+                    if(response){
+                        $('#orderSuccessModal').modal('show');
+                        localStorage.clear();
+                    }
+                },
+                error: function(xhr,status,error){
+                    console.log(xhr.responseText);
+                }
+
+            })
+            })
         })
 
-          
-    })
     </script>
 @endsection

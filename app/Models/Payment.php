@@ -16,4 +16,7 @@ class Payment extends Model
         'name',
         'logo'
     ];
+
+  
 }
+
